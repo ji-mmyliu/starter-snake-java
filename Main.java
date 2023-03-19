@@ -14,7 +14,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new FileReader("input.txt"));
 
         /**
-         * TODO: Read the 11x11 char array as the Battlesnake board
+         * First, read the 11x11 char array as the Battlesnake board
          * (an example of the input can be found in sample_input.txt)
          * 
          * "H" represents your snake's head
@@ -39,8 +39,8 @@ public class Main {
         int health_remaining = Integer.parseInt(br.readLine());
 
         /**
-         * TODO: output the move that YOUR snake will make (either "up", "down", "left",
-         * or "right")
+         * TODO: calculate the move that you want YOUR Battlesnake to make (either "up",
+         * "down", "left", or "right") and output it using System.out.println()
          */
         System.out.println("up"); // just an example. replace this with the move of your choice
     }
