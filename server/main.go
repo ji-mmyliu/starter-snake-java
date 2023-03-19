@@ -119,7 +119,7 @@ func move(state GameState) BattlesnakeMoveResponse {
 		fmt.Println("----------------")
 	}
 
-	cmd := exec.Command("/home/jimmy/.jdk-19/bin/java", "Main")
+	cmd := exec.Command("java", "Main")
 	stdout, err := cmd.Output()
 
 	outputs := strings.Split(string(stdout), "\n")
