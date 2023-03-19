@@ -43,7 +43,8 @@ To output the board layout at every turn, run the following command in the conso
 go run ./server verbose
 ```
 
-## Next Steps
+## Building your Battlesnake
+Head to `Main.java` to start building your snake! There is more information provided in the file.
 
 Try to make your Battlesnake smarter by avoiding other snakes and the edges of the board, going towards food, and suviving the arena as long as possible!
 
