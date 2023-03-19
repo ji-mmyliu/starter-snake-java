@@ -56,6 +56,7 @@ func end(state GameState) {
 func move(state GameState) BattlesnakeMoveResponse {
 
 	var board [11][11]byte
+	var verbose = len(os.Args) > 1 && os.Args[1] == "verbose"
 
 	for _, snake := range state.Board.Snakes {
 		var is_you bool = snake.ID == state.You.ID
@@ -92,40 +93,49 @@ func move(state GameState) BattlesnakeMoveResponse {
 	for row := 0; row < 11; row++ {
 		for col := 0; col < 11; col++ {
 			if board[row][col] == 0 {
-				fmt.Print(".")
+				if verbose {
+					fmt.Print(".")
+				}
 				// output += "."
 				f.Write([]byte{'.'})
 			} else {
-				fmt.Printf("%c", board[row][col])
+				if verbose {
+					fmt.Printf("%c", board[row][col])
+				}
 				f.Write([]byte{board[row][col]})
 			}
 		}
-		fmt.Println()
+		if verbose {
+			fmt.Println()
+		}
 		f.Write([]byte{'\n'})
 	}
 
 	f.WriteString(fmt.Sprint(state.You.Health))
 
 	f.Sync()
-	fmt.Println("----------------")
 
-	cmd := exec.Command("java", "Main")
+	if verbose {
+		fmt.Println("----------------")
+	}
+
+	cmd := exec.Command("/home/jimmy/.jdk-19/bin/java", "Main")
 	stdout, err := cmd.Output()
 
-	outputs := strings.Split(fmt.Sprint(stdout), "\n")
+	outputs := strings.Split(string(stdout), "\n")
 
 	if err != nil {
 		fmt.Println(err.Error())
+		log.Printf("MOVE %d: %s\n", state.Turn, "(error) defaulting to up")
 		return BattlesnakeMoveResponse{Move: "up"}
 	} else {
+		log.Printf("MOVE %d: %s\n", state.Turn, outputs[0])
 		if len(outputs) > 1 {
 			return BattlesnakeMoveResponse{Move: outputs[0], Shout: outputs[1]}
 		} else {
 			return BattlesnakeMoveResponse{Move: outputs[0]}
 		}
 	}
-
-	return BattlesnakeMoveResponse{Move: "up"}
 }
 
 func main() {
