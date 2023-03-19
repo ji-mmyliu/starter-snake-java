@@ -9,7 +9,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         char grid[][] = new char[11][11]; // The battlesnake grid will be 11x11
-        BufferedReader br = new BufferedReader(new FileReader("input.txt")); // use this Buffered Reader to read input
+
+        // use this Buffered Reader to read input
+        BufferedReader br = new BufferedReader(new FileReader("input.txt"));
 
         // TODO: Read the 11x11 char array as the Battlesnake board
         // (an example of the input can be found in sample_input.txt)

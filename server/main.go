@@ -38,11 +38,6 @@ func info() BattlesnakeInfoResponse {
 // start is called when your Battlesnake begins a game
 func start(state GameState) {
 	log.Println("GAME START")
-	cmd := exec.Command("javac", "Main.java")
-	_, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 }
 
 // end is called when your Battlesnake finishes a game

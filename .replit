@@ -1,4 +1,4 @@
-run = "go run ./server"
+run = "javac Main.java && go run ./server"
 hidden = ["Makefile", "main"]
 
 [languages.go]
