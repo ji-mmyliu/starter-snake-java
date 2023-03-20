@@ -55,7 +55,12 @@ func move(state GameState) BattlesnakeMoveResponse {
 
 	for _, snake := range state.Board.Snakes {
 		var is_you bool = snake.ID == state.You.ID
+		var head Coord = snake.Head
 		for j, coordinate := range snake.Body {
+			if j > 0 && coordinate.X == head.X && coordinate.Y == head.Y {
+				continue // Don't re-mark the head
+			}
+
 			if j == 0 {
 				if is_you == true {
 					board[10-coordinate.Y][coordinate.X] = 'H'
