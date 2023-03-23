@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 )
 
 // HTTP Handlers
@@ -74,6 +76,34 @@ func withServerID(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+func RefreshJavaSource(w http.ResponseWriter, r *http.Request) {
+	file, _, err := r.FormFile("new_src")
+
+	if file == nil {
+		log.Print("ERROR: no file new_src provided in form data")
+	}
+
+	defer file.Close()
+
+	if err != nil {
+		log.Panicf("ERROR: error occurred when fetching uploaded file, %s", err)
+		return
+	}
+
+	// Copy into source
+	f, err := os.OpenFile("./Main.java", os.O_WRONLY|os.O_CREATE, 0666)
+	defer f.Close()
+	io.Copy(f, file)
+
+	cmd := exec.Command("javac", "Main.java")
+	_, err = cmd.Output()
+
+	if err != nil {
+		log.Panicf("ERROR: new Java source code compiled with error: %s", err)
+		return
+	}
+}
+
 // Start Battlesnake Server
 
 func RunServer() {
@@ -86,6 +116,7 @@ func RunServer() {
 	http.HandleFunc("/start", withServerID(HandleStart))
 	http.HandleFunc("/move", withServerID(HandleMove))
 	http.HandleFunc("/end", withServerID(HandleEnd))
+	http.HandleFunc("/refresh", withServerID(RefreshJavaSource))
 
 	log.Printf("Running Battlesnake at http://0.0.0.0:%s...\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
