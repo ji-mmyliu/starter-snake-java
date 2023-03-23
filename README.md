@@ -18,10 +18,10 @@ You should see the following at the top right of your repl.it app:
 
 ## Run Your Battlesnake (Local)
 
-To start your Battlesnake, press the "Start" button at the top of your repl.it server or run:
+To start your Battlesnake, run the following command (requires Golang and Java installed):
 
 ```sh
-go run ./server
+javac Main.java && go run ./server
 ```
 
 You should see the following output once it is running
